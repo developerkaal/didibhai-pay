@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,15 +40,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-50">
+    <div className="flex h-screen items-center justify-center bg-secondary">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Login to DidiBhai Pay</CardTitle>
+          <CardTitle className="text-center text-2xl">{t("auth.loginTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t("auth.email")}</Label>
               <Input 
                 id="email" 
                 type="email" 
@@ -56,7 +58,7 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("auth.password")}</Label>
               <Input 
                 id="password" 
                 type="password" 
@@ -65,9 +67,9 @@ export default function LoginPage() {
                 required 
               />
             </div>
-            <Button type="submit" className="w-full">Login</Button>
+            <Button type="submit" className="w-full">{t("auth.loginButton")}</Button>
             <div className="text-center text-sm">
-              Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Register</Link>
+              {t("auth.noAccount")} <Link to="/register" className="text-accent hover:underline">{t("nav.register")}</Link>
             </div>
           </form>
         </CardContent>

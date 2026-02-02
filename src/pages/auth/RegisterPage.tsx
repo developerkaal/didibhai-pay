@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ export default function RegisterPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,15 +40,15 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-50">
+    <div className="flex h-screen items-center justify-center bg-secondary">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Create Account</CardTitle>
+          <CardTitle className="text-center text-2xl">{t("auth.registerTitle")}</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label>Full Name</Label>
+              <Label>{t("auth.fullName")}</Label>
               <Input 
                 value={formData.fullName} 
                 onChange={(e) => setFormData({...formData, fullName: e.target.value})} 
@@ -54,7 +56,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Email</Label>
+              <Label>{t("auth.email")}</Label>
               <Input 
                 type="email"
                 value={formData.email} 
@@ -63,7 +65,7 @@ export default function RegisterPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Password</Label>
+              <Label>{t("auth.password")}</Label>
               <Input 
                 type="password"
                 value={formData.password} 
@@ -73,19 +75,19 @@ export default function RegisterPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                    <Label>Country</Label>
+                    <Label>{t("auth.country")}</Label>
                     <Select value={formData.country} onValueChange={(v) => setFormData({...formData, country: v})}>
                         <SelectTrigger>
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="NP">Nepal</SelectItem>
-                            <SelectItem value="IN">India</SelectItem>
+                            <SelectItem value="NP">{t("auth.nepal")}</SelectItem>
+                            <SelectItem value="IN">{t("auth.india")}</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>
                 <div className="space-y-2">
-                    <Label>Phone</Label>
+                    <Label>{t("auth.phone")}</Label>
                     <Input 
                         value={formData.phone} 
                         onChange={(e) => setFormData({...formData, phone: e.target.value})} 
@@ -93,9 +95,9 @@ export default function RegisterPage() {
                     />
                 </div>
             </div>
-            <Button type="submit" className="w-full">Register</Button>
+            <Button type="submit" className="w-full">{t("auth.registerButton")}</Button>
             <div className="text-center text-sm">
-              Already have an account? <Link to="/login" className="text-blue-600 hover:underline">Login</Link>
+              {t("auth.haveAccount")} <Link to="/login" className="text-accent hover:underline">{t("nav.login")}</Link>
             </div>
           </form>
         </CardContent>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { StatusBadge } from "@/components/ui/StatusBadge";
+import { StatusBadge, TransactionStatus } from "@/components/ui/StatusBadge";
 import { CurrencyBadge } from "@/components/ui/CurrencyBadge";
 import {
   Search,
@@ -186,7 +186,7 @@ export default function AdminTransactionsPage() {
                         <span className="font-semibold">
                           {Number(tx.amount).toLocaleString()}
                         </span>
-                        <CurrencyBadge currency={tx.currency} />
+                        <CurrencyBadge currency={tx.currency as "INR" | "NPR"} />
                       </div>
                     </td>
                     <td className="p-4 text-right">
@@ -200,7 +200,7 @@ export default function AdminTransactionsPage() {
                       </div>
                     </td>
                     <td className="p-4">
-                      <StatusBadge status={tx.status.toLowerCase()} />
+                      <StatusBadge status={tx.status.toLowerCase() as TransactionStatus} />
                     </td>
                     <td className="p-4 text-muted-foreground text-sm">
                       {new Date(tx.created_at).toLocaleDateString()}
