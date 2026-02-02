@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StatusBadge, TransactionStatus } from "@/components/ui/StatusBadge";
 import { CurrencyBadge } from "@/components/ui/CurrencyBadge";
+import { useLanguage } from "@/context/LanguageContext";
 import { Search, ArrowRight, Clock, CheckCircle2, Copy, ExternalLink } from "lucide-react";
 
 // Mock transaction data
@@ -31,6 +32,7 @@ export default function TrackTransferPage() {
   const [trackingId, setTrackingId] = useState("");
   const [transaction, setTransaction] = useState<typeof MOCK_TRANSACTION | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+  const { t } = useLanguage();
 
   const handleSearch = () => {
     setIsSearching(true);
@@ -52,10 +54,10 @@ export default function TrackTransferPage() {
         {/* Search Section */}
         <div className="text-center mb-12">
           <h1 className="text-3xl lg:text-4xl font-bold mb-4">
-            Track Your <span className="text-accent">Transfer</span>
+            {t("track.title")} <span className="text-accent">{t("track.titleAccent")}</span>
           </h1>
           <p className="text-muted-foreground text-lg mb-8">
-            Enter your transaction ID to see the status of your transfer
+            {t("track.subtitle")}
           </p>
 
           <div className="flex gap-3 max-w-lg mx-auto">
@@ -64,7 +66,7 @@ export default function TrackTransferPage() {
               <Input
                 value={trackingId}
                 onChange={(e) => setTrackingId(e.target.value)}
-                placeholder="Enter Transaction ID (e.g., TXN-2024-001234)"
+                placeholder={t("track.placeholder")}
                 className="pl-12 h-12"
               />
             </div>
@@ -74,12 +76,12 @@ export default function TrackTransferPage() {
               onClick={handleSearch}
               disabled={!trackingId || isSearching}
             >
-              {isSearching ? "Searching..." : "Track"}
+              {isSearching ? t("track.searching") : t("track.button")}
             </Button>
           </div>
 
           <p className="text-sm text-muted-foreground mt-4">
-            Try: <button onClick={() => { setTrackingId("TXN-2024-001234"); handleSearch(); }} className="text-accent hover:underline">TXN-2024-001234</button>
+            {t("track.try")} <button onClick={() => { setTrackingId("TXN-2024-001234"); handleSearch(); }} className="text-accent hover:underline">TXN-2024-001234</button>
           </p>
         </div>
 
@@ -104,7 +106,7 @@ export default function TrackTransferPage() {
               {/* Amount Summary */}
               <div className="flex items-center justify-between p-4 bg-secondary/50 rounded-xl mb-6">
                 <div className="text-center">
-                  <div className="text-sm text-muted-foreground mb-1">You sent</div>
+                  <div className="text-sm text-muted-foreground mb-1">{t("track.youSent")}</div>
                   <div className="text-2xl font-bold">{transaction.sendAmount.toLocaleString()}</div>
                   <CurrencyBadge currency={transaction.sendCurrency} />
                 </div>
@@ -114,7 +116,7 @@ export default function TrackTransferPage() {
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-sm text-muted-foreground mb-1">Recipient gets</div>
+                  <div className="text-sm text-muted-foreground mb-1">{t("track.recipientGets")}</div>
                   <div className="text-2xl font-bold text-accent">{transaction.receiveAmount.toLocaleString()}</div>
                   <CurrencyBadge currency={transaction.receiveCurrency} />
                 </div>
@@ -122,7 +124,7 @@ export default function TrackTransferPage() {
 
               {/* Timeline */}
               <div className="space-y-0">
-                <h3 className="font-semibold mb-4">Transfer Timeline</h3>
+                <h3 className="font-semibold mb-4">{t("track.timeline")}</h3>
                 <div className="relative">
                   {transaction.timeline.map((step, index) => (
                     <div key={step.status} className="flex gap-4 pb-6 last:pb-0">
@@ -170,18 +172,18 @@ export default function TrackTransferPage() {
 
             {/* Recipient Details */}
             <div className="bg-card rounded-2xl border border-border shadow-lg p-6">
-              <h3 className="font-semibold mb-4">Recipient Details</h3>
+              <h3 className="font-semibold mb-4">{t("track.recipientDetails")}</h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Name</span>
+                  <span className="text-muted-foreground">{t("track.name")}</span>
                   <span className="font-medium">{transaction.recipientName}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Phone</span>
+                  <span className="text-muted-foreground">{t("track.phone")}</span>
                   <span>{transaction.recipientPhone}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Payout via</span>
+                  <span className="text-muted-foreground">{t("track.payoutVia")}</span>
                   <span className="font-medium">{transaction.payoutMethod}</span>
                 </div>
               </div>
@@ -189,12 +191,12 @@ export default function TrackTransferPage() {
 
             {/* Help Section */}
             <div className="bg-accent/5 rounded-2xl border border-accent/20 p-6">
-              <h3 className="font-semibold mb-2">Need Help?</h3>
+              <h3 className="font-semibold mb-2">{t("track.needHelp")}</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                If your transfer is taking longer than expected or you have any questions, our support team is here to help.
+                {t("track.helpText")}
               </p>
               <Button variant="outline" size="sm">
-                Contact Support
+                {t("track.contactSupport")}
                 <ExternalLink className="w-4 h-4" />
               </Button>
             </div>
@@ -205,7 +207,7 @@ export default function TrackTransferPage() {
         {!transaction && !isSearching && (
           <div className="text-center py-16 text-muted-foreground">
             <Clock className="w-16 h-16 mx-auto mb-4 opacity-50" />
-            <p>Enter a transaction ID above to track your transfer</p>
+            <p>{t("track.emptyState")}</p>
           </div>
         )}
       </div>

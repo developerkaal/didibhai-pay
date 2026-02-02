@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const queryClient = new QueryClient();
 
@@ -80,13 +81,15 @@ const AppRoutes = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AppRoutes />
+          </BrowserRouter>
+        </AuthProvider>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

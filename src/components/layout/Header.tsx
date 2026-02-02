@@ -4,19 +4,22 @@ import { ArrowLeftRight, Menu, X, User, Shield, LogOut } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/send", label: "Send Money" },
-  { href: "/track", label: "Track Transfer" },
-  { href: "/about", label: "About" },
-];
+import { useLanguage } from "@/context/LanguageContext";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { href: "/", label: t("nav.home") },
+    { href: "/send", label: t("nav.sendMoney") },
+    { href: "/track", label: t("nav.trackTransfer") },
+    { href: "/about", label: t("nav.about") },
+  ];
 
   const handleLogout = () => {
     logoutUser();
@@ -62,13 +65,14 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             {user ? (
               <>
                 {user.role === "admin" && (
                   <Link to="/admin">
                     <Button variant="ghost" size="sm">
                       <Shield className="w-4 h-4 mr-1" />
-                      Admin
+                      {t("nav.admin")}
                     </Button>
                   </Link>
                 )}
@@ -81,7 +85,7 @@ export function Header() {
                 </div>
                 <Button variant="outline" size="sm" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 mr-1" />
-                  Logout
+                  {t("nav.logout")}
                 </Button>
               </>
             ) : (
@@ -89,18 +93,18 @@ export function Header() {
                 <Link to="/admin">
                   <Button variant="ghost" size="sm">
                     <Shield className="w-4 h-4 mr-1" />
-                    Admin
+                    {t("nav.admin")}
                   </Button>
                 </Link>
                 <Link to="/login">
                   <Button variant="outline" size="sm">
                     <User className="w-4 h-4 mr-1" />
-                    Login
+                    {t("nav.login")}
                   </Button>
                 </Link>
                 <Link to="/send">
                   <Button variant="accent" size="sm">
-                    Send Money
+                    {t("nav.sendMoney")}
                   </Button>
                 </Link>
               </>
@@ -108,16 +112,19 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 rounded-lg hover:bg-secondary"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <LanguageSwitcher />
+            <button
+              className="p-2 rounded-lg hover:bg-secondary"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -156,19 +163,19 @@ export function Header() {
                     onClick={handleLogout}
                   >
                     <LogOut className="w-4 h-4 mr-1" />
-                    Logout
+                    {t("nav.logout")}
                   </Button>
                 </>
               ) : (
                 <>
                   <Link to="/login" className="flex-1">
                     <Button variant="outline" className="w-full">
-                      Login
+                      {t("nav.login")}
                     </Button>
                   </Link>
                   <Link to="/send" className="flex-1">
                     <Button variant="accent" className="w-full">
-                      Send Money
+                      {t("nav.sendMoney")}
                     </Button>
                   </Link>
                 </>

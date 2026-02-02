@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
+import { useLanguage } from "@/context/LanguageContext";
 import { 
   ArrowRight, 
   ArrowLeftRight, 
@@ -9,7 +10,6 @@ import {
   Zap, 
   TrendingDown,
   Users,
-  CheckCircle2,
   ArrowUpRight
 } from "lucide-react";
 import heroImage from "@/assets/hero-illustration.jpg";
@@ -23,6 +23,7 @@ const MOCK_RATE = {
 export default function LandingPage() {
   const [sendAmount, setSendAmount] = useState("10000");
   const [direction, setDirection] = useState<"india-nepal" | "nepal-india">("india-nepal");
+  const { t } = useLanguage();
   
   const isIndiaToNepal = direction === "india-nepal";
   const rate = isIndiaToNepal ? MOCK_RATE.inrToNpr : MOCK_RATE.nprToInr;
@@ -53,31 +54,30 @@ export default function LandingPage() {
             <div className="animate-slide-up">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-6">
                 <Zap className="w-4 h-4" />
-                <span>Instant cross-border payments</span>
+                <span>{t("hero.badge")}</span>
               </div>
               
               <h1 className="text-4xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-                Send Money Between{" "}
-                <span className="text-india">India</span> &{" "}
-                <span className="text-nepal">Nepal</span>{" "}
-                <span className="text-accent">Instantly</span>
+                {t("hero.title1")}{" "}
+                <span className="text-india">{t("hero.title2")}</span> {t("hero.title3")}{" "}
+                <span className="text-nepal">{t("hero.title4")}</span>{" "}
+                <span className="text-accent">{t("hero.title5")}</span>
               </h1>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-lg">
-                The fastest, most affordable way to transfer money across borders. 
-                Bank-level security with the lowest fees in the market.
+                {t("hero.subtitle")}
               </p>
 
               <div className="flex flex-wrap gap-4 mb-12">
                 <Link to="/send">
                   <Button variant="accent" size="xl">
-                    Start Sending
+                    {t("hero.startSending")}
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>
                 <Link to="/about">
                   <Button variant="outline" size="xl">
-                    Learn More
+                    {t("hero.learnMore")}
                   </Button>
                 </Link>
               </div>
@@ -86,15 +86,15 @@ export default function LandingPage() {
               <div className="grid grid-cols-3 gap-6">
                 <div>
                   <div className="text-2xl lg:text-3xl font-bold text-foreground">₹500Cr+</div>
-                  <div className="text-sm text-muted-foreground">Transferred</div>
+                  <div className="text-sm text-muted-foreground">{t("stats.transferred")}</div>
                 </div>
                 <div>
                   <div className="text-2xl lg:text-3xl font-bold text-foreground">100K+</div>
-                  <div className="text-sm text-muted-foreground">Happy Users</div>
+                  <div className="text-sm text-muted-foreground">{t("stats.happyUsers")}</div>
                 </div>
                 <div>
                   <div className="text-2xl lg:text-3xl font-bold text-foreground">99.9%</div>
-                  <div className="text-sm text-muted-foreground">Uptime</div>
+                  <div className="text-sm text-muted-foreground">{t("stats.uptime")}</div>
                 </div>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function LandingPage() {
             {/* Right - Calculator Card */}
             <div className="lg:pl-8 animate-fade-in">
               <div className="bg-card rounded-2xl shadow-xl border border-border p-6 lg:p-8">
-                <h2 className="text-xl font-semibold mb-6">Quick Quote</h2>
+                <h2 className="text-xl font-semibold mb-6">{t("calculator.title")}</h2>
                 
                 {/* Direction Toggle */}
                 <div className="flex gap-2 mb-6">
@@ -115,7 +115,7 @@ export default function LandingPage() {
                     }`}
                   >
                     <span>🇮🇳</span>
-                    <span>India → Nepal</span>
+                    <span>{t("calculator.indiaToNepal")}</span>
                     <span>🇳🇵</span>
                   </button>
                   <button
@@ -127,7 +127,7 @@ export default function LandingPage() {
                     }`}
                   >
                     <span>🇳🇵</span>
-                    <span>Nepal → India</span>
+                    <span>{t("calculator.nepalToIndia")}</span>
                     <span>🇮🇳</span>
                   </button>
                 </div>
@@ -135,7 +135,7 @@ export default function LandingPage() {
                 {/* Amount Input */}
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">You send</label>
+                    <label className="text-sm text-muted-foreground mb-2 block">{t("calculator.youSend")}</label>
                     <div className="relative">
                       <input
                         type="number"
@@ -162,7 +162,7 @@ export default function LandingPage() {
                   </div>
 
                   <div>
-                    <label className="text-sm text-muted-foreground mb-2 block">Recipient gets</label>
+                    <label className="text-sm text-muted-foreground mb-2 block">{t("calculator.recipientGets")}</label>
                     <div className="relative">
                       <div className="w-full h-14 pl-4 pr-20 rounded-xl border-2 border-border bg-secondary/50 flex items-center text-lg font-semibold text-foreground">
                         {receiveAmount}
@@ -176,13 +176,13 @@ export default function LandingPage() {
 
                   {/* Fee Info */}
                   <div className="flex items-center justify-between text-sm py-3 border-t border-border">
-                    <span className="text-muted-foreground">Transfer fee</span>
-                    <span className="font-medium text-success">₹0 (First transfer free!)</span>
+                    <span className="text-muted-foreground">{t("calculator.transferFee")}</span>
+                    <span className="font-medium text-success">{t("calculator.freeFirst")}</span>
                   </div>
 
                   <Link to="/send" className="block">
                     <Button variant="accent" size="lg" className="w-full">
-                      Continue
+                      {t("calculator.continue")}
                       <ArrowRight className="w-4 h-4" />
                     </Button>
                   </Link>
@@ -198,10 +198,10 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Why Choose <span className="text-accent">RemitFlow</span>?
+              {t("features.title")} <span className="text-accent">RemitFlow</span>?
             </h2>
             <p className="text-muted-foreground text-lg">
-              We've built the most reliable cross-border payment system for India and Nepal.
+              {t("features.subtitle")}
             </p>
           </div>
 
@@ -209,29 +209,29 @@ export default function LandingPage() {
             {[
               {
                 icon: Zap,
-                title: "Lightning Fast",
-                description: "Money reaches in minutes, not days. Real-time tracking included.",
+                title: t("features.fast.title"),
+                description: t("features.fast.desc"),
                 color: "text-accent",
                 bg: "bg-accent/10",
               },
               {
                 icon: TrendingDown,
-                title: "Lowest Fees",
-                description: "Up to 90% cheaper than traditional banks. No hidden charges.",
+                title: t("features.fees.title"),
+                description: t("features.fees.desc"),
                 color: "text-success",
                 bg: "bg-success/10",
               },
               {
                 icon: Shield,
-                title: "Bank-Level Security",
-                description: "256-bit encryption, regulatory compliant, fully audited.",
+                title: t("features.security.title"),
+                description: t("features.security.desc"),
                 color: "text-india",
                 bg: "bg-india/10",
               },
               {
                 icon: Users,
-                title: "24/7 Support",
-                description: "Dedicated support in Hindi, English, and Nepali.",
+                title: t("features.support.title"),
+                description: t("features.support.desc"),
                 color: "text-nepal",
                 bg: "bg-nepal/10",
               },
@@ -256,10 +256,10 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Send Money in <span className="text-accent">3 Simple Steps</span>
+              {t("howItWorks.title")} <span className="text-accent">{t("howItWorks.titleAccent")}</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              No complicated forms. No lengthy verification. Just fast, simple transfers.
+              {t("howItWorks.subtitle")}
             </p>
           </div>
 
@@ -270,18 +270,18 @@ export default function LandingPage() {
             {[
               {
                 step: "01",
-                title: "Enter Details",
-                description: "Tell us how much you want to send and where it should go.",
+                title: t("howItWorks.step1.title"),
+                description: t("howItWorks.step1.desc"),
               },
               {
                 step: "02",
-                title: "Make Payment",
-                description: "Pay securely using Razorpay (India) or eSewa/Khalti (Nepal).",
+                title: t("howItWorks.step2.title"),
+                description: t("howItWorks.step2.desc"),
               },
               {
                 step: "03",
-                title: "Money Arrives",
-                description: "Recipient gets the money in their bank or wallet instantly.",
+                title: t("howItWorks.step3.title"),
+                description: t("howItWorks.step3.desc"),
               },
             ].map((step, index) => (
               <div key={index} className="relative text-center">
@@ -297,7 +297,7 @@ export default function LandingPage() {
           <div className="text-center mt-12">
             <Link to="/send">
               <Button variant="accent" size="lg">
-                Start Your First Transfer
+                {t("howItWorks.startFirst")}
                 <ArrowUpRight className="w-5 h-5" />
               </Button>
             </Link>
@@ -310,10 +310,10 @@ export default function LandingPage() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-              Multiple <span className="text-accent">Payment Options</span>
+              {t("payment.title")} <span className="text-accent">{t("payment.titleAccent")}</span>
             </h2>
             <p className="text-muted-foreground text-lg">
-              Pay the way you prefer. We support all major payment methods.
+              {t("payment.subtitle")}
             </p>
           </div>
 
@@ -323,8 +323,8 @@ export default function LandingPage() {
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-3xl">🇮🇳</span>
                 <div>
-                  <h3 className="font-semibold text-lg">Pay from India</h3>
-                  <p className="text-sm text-muted-foreground">via Razorpay</p>
+                  <h3 className="font-semibold text-lg">{t("payment.india.title")}</h3>
+                  <p className="text-sm text-muted-foreground">{t("payment.india.via")}</p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-3">
@@ -341,8 +341,8 @@ export default function LandingPage() {
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-3xl">🇳🇵</span>
                 <div>
-                  <h3 className="font-semibold text-lg">Pay from Nepal</h3>
-                  <p className="text-sm text-muted-foreground">via eSewa & Khalti</p>
+                  <h3 className="font-semibold text-lg">{t("payment.nepal.title")}</h3>
+                  <p className="text-sm text-muted-foreground">{t("payment.nepal.via")}</p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-3">
@@ -369,14 +369,14 @@ export default function LandingPage() {
             
             <div className="relative z-10">
               <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-4">
-                Ready to Send Money?
+                {t("cta.title")}
               </h2>
               <p className="text-lg text-primary-foreground/80 mb-8 max-w-lg mx-auto">
-                Join 100,000+ users who trust RemitFlow for their cross-border payments.
+                {t("cta.subtitle")}
               </p>
               <Link to="/send">
                 <Button variant="accent" size="xl" className="shadow-glow">
-                  Send Money Now
+                  {t("cta.button")}
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
